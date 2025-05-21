@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Student-Teacher Booking Appointment</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+</head>
+<body>
+<!-- HOME PAGE -->
+<section id="home" class="container">
+    <h2>Welcome to Student-Teacher Appointment System</h2>
+    <a href="#login" class="btn">Login</a>
+    <a href="#register" class="btn">Register</a>
+</section>
+
+<!-- STUDENT REGISTER -->
+<section id="register" class="container" style="display: none;">
+    <h2>Student Registration</h2>
+    <form id="registerForm">
+        <input type="text" id="studentName" placeholder="Full Name" required />
+        <input type="email" id="studentEmail" placeholder="Email" required />
+        <input type="password" id="studentPassword" placeholder="Password" required />
+        <input type="text" id="studentDept" placeholder="Department" required />
+        <button type="submit" class="btn">Register</button>
+    </form>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="container" style="display: none;">
+    <h2>Login</h2>
+    <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <select id="loginRole">
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+            <option value="admin">Admin</option>
+        </select>
+        <button type="submit" class="btn">Login</button>
+    </form>
+</section>
+
+<!-- ADMIN DASHBOARD -->
+<section id="adminDashboard" class="container" style="display: none;">
+    <h2>Admin Dashboard</h2>
+    <button onclick="logout()" class="btn">Logout</button>
+    <form id="addTeacherForm">
+        <h3>Add Teacher</h3>
+        <input type="text" id="teacherName" placeholder="Name" required />
+        <input type="text" id="teacherDept" placeholder="Department" required />
+        <input type="text" id="teacherSubject" placeholder="Subject" required />
+        <input type="email" id="teacherEmail" placeholder="Email" required />
+        <button type="submit" class="btn">Add Teacher</button>
+    </form>
+    <h3>Approve Students</h3>
+    <div id="studentApprovalList"></div>
+</section>
+
+<!-- TEACHER DASHBOARD -->
+<section id="teacherDashboard" class="container" style="display: none;">
+    <h2>Teacher Dashboard</h2>
+    <button onclick="logout()" class="btn">Logout</button>
+    <div>
+        <h3>Appointments</h3>
+        <div id="teacherAppointments"></div>
+        <h3>Messages</h3>
+        <div id="teacherMessages"></div>
+    </div>
+</section>
+
+<!-- STUDENT DASHBOARD -->
+<section id="studentDashboard" class="container" style="display: none;">
+    <h2>Student Dashboard</h2>
+    <button onclick="logout()" class="btn">Logout</button>
+    <h3>Search Teacher</h3>
+    <input type="text" id="searchBox" placeholder="Search by name or subject" />
+    <button onclick="searchTeacher()" class="btn">Search</button>
+    <div id="searchResults"></div>
+
+    <h3>Book Appointment</h3>
+    <form id="bookAppointmentForm">
+        <input type="text" id="appointmentTeacherId" placeholder="Teacher ID" required />
+        <input type="date" id="appointmentDate" required />
+        <input type="time" id="appointmentTime" required />
+        <textarea id="appointmentMessage" placeholder="Purpose" required></textarea>
+        <button type="submit" class="btn">Book</button>
+    </form>
+
+    <h3>Your Appointments</h3>
+    <div id="studentAppointments"></div>
+</section>
+
+<script>
+   // Page navigation
+    function showSection(id) {
+      document.querySelectorAll("section.container").forEach(section => {
+        section.style.display = "none";
+      });
+      document.getElementById(id).style.display = "block";
+    }
+
+    //Hash navigation
+    window.addEventListener("load", () => {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = this.getAttribute("href").substring(1);
+          showSection(target);
+        });
+      });
+    });
+</script>
+<script src="app.js"></script>
+</body>
+</html>
